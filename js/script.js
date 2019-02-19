@@ -22,16 +22,21 @@ function laisviLaikai() {
     }
 
     let db;
-    let request = window.indexedDB.open("InfoDB", 1);
+    let request = window.indexedDB.open("Infodb", 1);
     
+    request.onupgradeneeded = function(e) {
+        db = e.target.result;
+        let infotb = db.createObjectStore("info", { autoIncrement : true });
+    };
     request.onerror = function(e) {
             console.log("Klaida: " + e.target.error);
     };
 
     //Pazymi laikus kurie yra uzimti
     request.onsuccess = function (e) {
+        console.log("prisijungta")
         db = e.target.result;
-        let tran = db.transaction(["info"], "readwrite");
+        let tran = db.transaction( ["info"], "readwrite" );
         let objektas = tran.objectStore("info");
         let ats = objektas.getAll();
 
@@ -83,7 +88,7 @@ function getData() {
                     }
 
     let db;
-    let request = window.indexedDB.open("InfoDB", 1);
+    let request = window.indexedDB.open("Infodb", 1);
     
     request.onerror = function(e) {
             console.log("Klaida: " + e.target.error);
@@ -91,7 +96,7 @@ function getData() {
     
     request.onupgradeneeded = function(e) {
         db = e.target.result;
-        let infoTB = db.createObjectStore("info", { autoIncrement : true });
+        let infotb = db.createObjectStore("info", { autoIncrement : true });
     };
 
     request.onsuccess = function (e) {
