@@ -35,7 +35,11 @@ span.onclick = function() {
     }
 
     let db;
-    let request = window.indexedDB.open("InfoDB", 1);
+    let request = window.indexedDB.open("Infodb", 1);
+    request.onupgradeneeded = function(e) {
+        db = e.target.result;
+        let infotb = db.createObjectStore("info", { autoIncrement : true });
+    };
     
     request.onerror = function(e) {
             console.log("Klaida: " + e.target.error);
@@ -175,7 +179,11 @@ console.log("siandienos data: " + siandiena);
 console.log("rytojaus data: " + rytojus);
 
 let db;
-let request = window.indexedDB.open("InfoDB", 1);
+let request = window.indexedDB.open("Infodb", 1);
+request.onupgradeneeded = function(e) {
+    db = e.target.result;
+    let infotb = db.createObjectStore("info", { autoIncrement : true });
+};
 request.onsuccess = function (e) {
     db = e.target.result;
     let tran = db.transaction(["info"], "readwrite");
